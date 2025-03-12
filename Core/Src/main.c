@@ -18,11 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lcd_1602.h"
+#include "DHT11.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -85,10 +87,19 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 	LCD_INIT();
+
+  /**LCD_TEST*
 	lcd1602_show_string(0,0,"hello");
 	lcd1602_show_string(0,1,"stm");
+	*/
+	
+	/* read DHT11 DATA
+	  	DHT11();
+	 */
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -98,6 +109,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		
   }
   /* USER CODE END 3 */
 }

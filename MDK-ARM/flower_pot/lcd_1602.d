@@ -26,4 +26,5 @@ flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.
 flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 flower_pot\lcd_1602.o: ../Core/Inc/gpio.h

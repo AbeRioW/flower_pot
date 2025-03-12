@@ -2,11 +2,13 @@
 "flower_pot\startup_stm32f103xb.o"
 "flower_pot\main.o"
 "flower_pot\gpio.o"
+"flower_pot\usart.o"
 "flower_pot\stm32f1xx_it.o"
 "flower_pot\stm32f1xx_hal_msp.o"
 "flower_pot\stm32f1xx_hal_gpio_ex.o"
 "flower_pot\stm32f1xx_hal_tim.o"
 "flower_pot\stm32f1xx_hal_tim_ex.o"
+"flower_pot\stm32f1xx_hal_uart.o"
 "flower_pot\stm32f1xx_hal.o"
 "flower_pot\stm32f1xx_hal_rcc.o"
 "flower_pot\stm32f1xx_hal_rcc_ex.o"
@@ -19,7 +21,8 @@
 "flower_pot\stm32f1xx_hal_exti.o"
 "flower_pot\system_stm32f1xx.o"
 "flower_pot\lcd_1602.o"
---strict --scatter "flower_pot\flower_pot.sct"
+"flower_pot\dht11.o"
+--library_type=microlib --strict --scatter "flower_pot\flower_pot.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "flower_pot.map" -o flower_pot\flower_pot.axf
