@@ -79,6 +79,14 @@ void Error_Handler(void);
 #define LCD_D6_GPIO_Port GPIOA
 #define LCD_D7_Pin GPIO_PIN_7
 #define LCD_D7_GPIO_Port GPIOA
+#define MOTOR_A_Pin GPIO_PIN_5
+#define MOTOR_A_GPIO_Port GPIOB
+#define MOTOR_B_Pin GPIO_PIN_6
+#define MOTOR_B_GPIO_Port GPIOB
+#define MOTOR_C_Pin GPIO_PIN_7
+#define MOTOR_C_GPIO_Port GPIOB
+#define MOTOR_D_Pin GPIO_PIN_8
+#define MOTOR_D_GPIO_Port GPIOB
 #define DHT11_Pin GPIO_PIN_9
 #define DHT11_GPIO_Port GPIOB
 

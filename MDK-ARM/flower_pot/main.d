@@ -31,3 +31,4 @@ flower_pot\main.o: ../Core/Inc/gpio.h
 flower_pot\main.o: ../BSP/lcd_1602.h
 flower_pot\main.o: ../BSP/DHT11.h
 flower_pot\main.o: D:\programFiles\KEIL5\ARM\ARMCC\Bin\..\include\stdio.h
+flower_pot\main.o: ../BSP/motor.h

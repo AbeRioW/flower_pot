@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "lcd_1602.h"
 #include "DHT11.h"
+#include "motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,6 +92,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	LCD_INIT();
 
+#if 1
   /**LCD_TEST*
 	lcd1602_show_string(0,0,"hello");
 	lcd1602_show_string(0,1,"stm");
@@ -99,7 +101,19 @@ int main(void)
 	/* read DHT11 DATA
 	  	DHT11();
 	 */
-	
+	 
+	 /*motor test,旋转90度*/
+//	 direction = 0; //0为正向
+//	 for(int i=0;i<(motor_angle_cal(90))/8;i++)
+//	 {
+//			for(uint8_t step=0;step<8;step++)
+//			{	
+//					motor_controld(step,direction);
+//				HAL_Delay(1);
+//			}
+//	 }
+	 
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
