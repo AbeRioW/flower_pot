@@ -87,6 +87,8 @@ void Error_Handler(void);
 #define KEY2_GPIO_Port GPIOB
 #define KEY3_Pin GPIO_PIN_15
 #define KEY3_GPIO_Port GPIOB
+#define WATER_CONTROL_Pin GPIO_PIN_8
+#define WATER_CONTROL_GPIO_Port GPIOA
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOA
 #define FAN_Pin GPIO_PIN_3

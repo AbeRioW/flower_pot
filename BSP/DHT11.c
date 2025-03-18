@@ -108,11 +108,13 @@ unsigned char DHT11_READ_DATA(void)
 						{
 								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET);  //开风扇
 							  HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_RESET);  //BEEP 开启
+							 HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);  //BEEP 开启
 						}
 						else
 						{
 								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
 								HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_SET);  //BEEP关闭
+								HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);  //BEEP 开启
 						}
             return 1;                               //  数据校验通过
         }

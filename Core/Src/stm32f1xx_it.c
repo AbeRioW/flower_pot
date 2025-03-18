@@ -22,11 +22,14 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-
+extern uint8_t uart3_rx[1000];
+extern uint8_t rx3_count;
+extern bool rx3_end_flag;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/

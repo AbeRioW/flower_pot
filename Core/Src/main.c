@@ -98,6 +98,7 @@ int main(void)
 	lay_control(false);
 	LCD_INIT();
 
+
 #if 1
   //LCD_TEST*
 	/* read DHT11 DATA
@@ -129,19 +130,19 @@ int main(void)
     /* USER CODE BEGIN 3 */
 		DHT11();
 		HAL_ADC_Start(&hadc1);   
-		HAL_ADC_PollForConversion(&hadc1,10); //等待ADC转换完成
-		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);   //返回ad转化后的数字量
-		adcy = (float)adcx*3.3/4096;             //转换为实际电压
+		HAL_ADC_PollForConversion(&hadc1,10); //
+		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);   //
+		adcy = (float)adcx*3.3/4096;             //
 		sprintf(data_light,"%.3f",adcy);
 		lcd1602_show_string(0,1,data_light);
 		
 		HAL_ADC_Start(&hadc2);   
-		HAL_ADC_PollForConversion(&hadc2,10); //等待ADC转换完成
-		adcx1 = (uint16_t)HAL_ADC_GetValue(&hadc2);   //返回ad转化后的数字量
-		adcy1 = (float)adcx1*3.3/4096;             //转换为实际电压
+		HAL_ADC_PollForConversion(&hadc2,10); 
+		adcx1 = (uint16_t)HAL_ADC_GetValue(&hadc2);   
+		adcy1 = (float)adcx1*3.3/4096;             
 		sprintf(data_light1,"%.3f",adcy1);
 		lcd1602_show_string(6,1,data_light1);
-		
+
 		
 		(adcy <0.6)?lay_control(true):lay_control(false);
 		if(adcy1<2)
@@ -156,6 +157,11 @@ int main(void)
 					}
 				}
 	  }
+		
+		if(adcy1>=3)
+		{
+				
+		}
   }
   /* USER CODE END 3 */
 }

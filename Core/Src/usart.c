@@ -22,6 +22,12 @@
 
 /* USER CODE BEGIN 0 */
 #include "stdio.h"
+#include "stdbool.h"
+
+
+uint8_t uart3_rx[1000]={0x00};
+uint8_t rx3_count = 0;
+bool rx3_end_flag = false;
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
