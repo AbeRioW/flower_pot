@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -67,7 +68,9 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  uint8_t disp[]="Test ok";
+  float adcy,adcy1;
+	uint16_t adcx = 0,adcx1 = 0;
+	char data_light[4]={0},data_light1[4]={0};
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -89,29 +92,30 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_ADC1_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
+	lay_control(false);
 	LCD_INIT();
 
 #if 1
-  /**LCD_TEST*
-	lcd1602_show_string(0,0,"hello");
-	lcd1602_show_string(0,1,"stm");
-	*/
-	
+  //LCD_TEST*
 	/* read DHT11 DATA
 	  	DHT11();
 	 */
 	 
-	 /*motor test,旋转90度*/
-//	 direction = 0; //0为正向
-//	 for(int i=0;i<(motor_angle_cal(90))/8;i++)
-//	 {
-//			for(uint8_t step=0;step<8;step++)
-//			{	
-//					motor_controld(step,direction);
-//				HAL_Delay(1);
-//			}
-//	 }
+	 /*motor test,+90C
+	 direction = 0; //0 
+	 for(int i=0;i<(motor_angle_cal(90))/8;i++)
+	 {
+			for(uint8_t step=0;step<8;step++)
+			{	
+					motor_controld(step,direction);
+				HAL_Delay(1);
+			}
+	 }*/
+	 
+
 	 
 #endif
   /* USER CODE END 2 */
@@ -123,7 +127,35 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		DHT11();
+		HAL_ADC_Start(&hadc1);   
+		HAL_ADC_PollForConversion(&hadc1,10); //等待ADC转换完成
+		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);   //返回ad转化后的数字量
+		adcy = (float)adcx*3.3/4096;             //转换为实际电压
+		sprintf(data_light,"%.3f",adcy);
+		lcd1602_show_string(0,1,data_light);
 		
+		HAL_ADC_Start(&hadc2);   
+		HAL_ADC_PollForConversion(&hadc2,10); //等待ADC转换完成
+		adcx1 = (uint16_t)HAL_ADC_GetValue(&hadc2);   //返回ad转化后的数字量
+		adcy1 = (float)adcx1*3.3/4096;             //转换为实际电压
+		sprintf(data_light1,"%.3f",adcy1);
+		lcd1602_show_string(6,1,data_light1);
+		
+		
+		(adcy <0.6)?lay_control(true):lay_control(false);
+		if(adcy1<2)
+		{
+				direction = 0; //0 
+				for(int i=0;i<(motor_angle_cal(90))/8;i++)
+				{
+					for(uint8_t step=0;step<8;step++)
+					{	
+							motor_controld(step,direction);
+							HAL_Delay(1);
+					}
+				}
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -136,6 +168,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -162,6 +195,12 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV6;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }

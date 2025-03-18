@@ -85,6 +85,7 @@ unsigned char DHT11_READ_DATA(void)
 {
     uint8_t i;
     uint8_t data[5] = {0};
+		char dht11_data[11]={0};
     
     DHT11_START();                                  //  主机发送启动信号
     
@@ -100,7 +101,19 @@ unsigned char DHT11_READ_DATA(void)
         
         if(data[0] + data[1] + data[2] + data[3] == data[4])
         {
-            printf("当前湿度：%d.%d%%RH当前温度：%d.%d°C--",data[0],data[1],data[2],data[3]);
+            //printf("当前湿度：%d.%d%%RH当前温度：%d.%d°C--",data[0],data[1],data[2],data[3]);
+					  sprintf(dht11_data,"%d.%d%%RH %d.%dC",data[0],data[1],data[2],data[3]);
+					  lcd1602_show_string(0,0,dht11_data);
+						if((data[0]>=50)||(data[2]>=30))
+						{
+								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET);  //开风扇
+							  HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_RESET);  //BEEP 开启
+						}
+						else
+						{
+								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
+								HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_SET);  //BEEP关闭
+						}
             return 1;                               //  数据校验通过
         }
         else
@@ -175,5 +188,11 @@ void Coarse_delay_us(uint32_t us)
 	}
 }
 
+
+//继电器模块
+void lay_control(bool open)
+{
+	HAL_GPIO_WritePin(GPIOB, LAY_Pin,open?GPIO_PIN_SET:GPIO_PIN_RESET);
+}
 
 

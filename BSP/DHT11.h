@@ -4,6 +4,8 @@
 #include "main.h"
 #include "gpio.h"
 #include "stdio.h"
+#include "stdbool.h"
+#include "lcd_1602.h"
 
 
 #define DHT11_PIN_SET   HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_SET)                                            //  …Ë÷√GPIOŒ™∏ﬂ
@@ -20,4 +22,6 @@ unsigned char DHT11_Check(void);
 static void DHT11_GPIO_MODE_SET(uint8_t mode);
 
 void Coarse_delay_us(uint32_t us);
+
+void lay_control(bool open);
 #endif
