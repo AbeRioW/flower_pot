@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -27,6 +28,8 @@
 #include "lcd_1602.h"
 #include "DHT11.h"
 #include "motor.h"
+#include "string.h"
+#include "esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,13 +94,30 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 	lay_control(false);
-	LCD_INIT();
+				memset(uart3_rx,0,100);;
+	//printf("hello\r\n");
+	//HAL_UART_Transmit(&huart3,(uint8_t*)(AT_MODE2),13,0xffff);
 
+//	start_esp8266();
+	//LCD_INIT();
+  
+	while(1)
+	{
+		  if(rx3_end_flag)
+			{
+					rx3_end_flag = false;
+					printf("%d\r\n",rx3_count);
+					rx3_count=0;
+								  HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
+			}
+	}
 
 #if 1
   //LCD_TEST*
@@ -117,7 +137,6 @@ int main(void)
 	 }*/
 	 
 
-	 
 #endif
   /* USER CODE END 2 */
 
@@ -145,7 +164,7 @@ int main(void)
 
 		
 		(adcy <0.6)?lay_control(true):lay_control(false);
-		if(adcy1<2)
+		if(adcy1<2)  //turang wenshidu 
 		{
 				direction = 0; //0 
 				for(int i=0;i<(motor_angle_cal(90))/8;i++)
@@ -161,6 +180,15 @@ int main(void)
 		if(adcy1>=3)
 		{
 				
+		}
+		
+		if(rx3_end_flag)
+		{
+				rx3_end_flag= false;
+			  handle_esp8266();
+			  				memset(uart3_rx,0,0100);
+				rx3_count=0;
+			  HAL_UART_Receive_DMA(&huart3,uart3_rx,1000);   //需要重新打开DMA接收
 		}
   }
   /* USER CODE END 3 */

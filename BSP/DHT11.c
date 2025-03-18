@@ -8,11 +8,11 @@ void DHT11(void)
 {
     if(DHT11_READ_DATA() == 1)
     {
-        printf("数据校验成功!\r\n");
+//        printf("数据校验成功!\r\n");
     }
     else
     {
-        printf("DHT11没有应答，请检查传感器!\r\n");
+  //      printf("DHT11没有应答，请检查传感器!\r\n");
     }
     HAL_Delay(1000);                              
   

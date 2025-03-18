@@ -3,6 +3,7 @@
 "flower_pot\main.o"
 "flower_pot\gpio.o"
 "flower_pot\adc.o"
+"flower_pot\dma.o"
 "flower_pot\usart.o"
 "flower_pot\stm32f1xx_it.o"
 "flower_pot\stm32f1xx_hal_msp.o"
@@ -26,6 +27,7 @@
 "flower_pot\lcd_1602.o"
 "flower_pot\dht11.o"
 "flower_pot\motor.o"
+"flower_pot\esp8266.o"
 --library_type=microlib --strict --scatter "flower_pot\flower_pot.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
