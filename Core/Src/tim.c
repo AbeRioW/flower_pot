@@ -21,8 +21,9 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-#include "stdio.h"
-#include "lcd_1602.h"
+
+
+bool time_right = false;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim1;
@@ -113,13 +114,14 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	  static int i=0;
-		if(htim->Instance == TIM1)
+	  int j;
+		if(htim->Instance == TIM1)  //Reverse fertilization
 		{
 			  i++;
-			  if(i==20*time_set)  //1S��ʱ��
+			  if(i==20*5)  
 				{
-					 i=0;
-					 printf("123\r\n");
+						i=0;
+					  time_right= true;
 				}
 
 		}

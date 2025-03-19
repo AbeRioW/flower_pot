@@ -104,8 +104,9 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	lay_control(false);
-	start_wifi =start_esp8266();
+	//
 	LCD_INIT();
+	start_wifi =start_esp8266();
 #if 1
   //LCD_TEST*
 	/* read DHT11 DATA
@@ -136,24 +137,24 @@ int main(void)
     /* USER CODE BEGIN 3 */
 		DHT11();
 		HAL_ADC_Start(&hadc1);   
-		HAL_ADC_PollForConversion(&hadc1,10); //
-		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);   //
-		adcy = (float)adcx*3.3/4096;             //
+		HAL_ADC_PollForConversion(&hadc1,10); 
+		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);  
+		adcy = (float)adcx*3.3/4096;             
 		sprintf(data_light,"%.3f",adcy);
 		lcd1602_show_string(0,1,data_light);
 		
 		HAL_ADC_Start(&hadc2);   
 		HAL_ADC_PollForConversion(&hadc2,10); 
-		adcx1 = (uint16_t)HAL_ADC_GetValue(&hadc2);   
-		adcy1 = (float)adcx1*3.3/4096;             
+		adcx1 = (uint16_t)HAL_ADC_GetValue(&hadc2);  
+		adcy1 = (float)adcx1*3.3/4096;              //guangzhao 
 		sprintf(data_light1,"%.3f",adcy1);
 		lcd1602_show_string(6,1,data_light1);
 
 		
-		(adcy <0.6)?lay_control(true):lay_control(false);
-		if(adcy1<2)  //turang wenshidu 
+		(adcy <0.6)?lay_control(true):lay_control(false); //The light is too strong, turn on the relay
+		if(adcy1<2)  //The smaller, the wetter
 		{
-				direction = 0; //0 
+				direction = 0; //Turn to loosen the soil in a positive direction
 				for(int i=0;i<(motor_angle_cal(90))/8;i++)
 				{
 					for(uint8_t step=0;step<8;step++)
@@ -164,14 +165,10 @@ int main(void)
 				}
 	  }
 		
-		if(adcy1>=3)
-		{
-				
-		}
 		
 			if(start_wifi)
 			{
-				handle_esp8266();
+				  handle_esp8266();
 			}
 			
 			if(botton == MIDLE)
@@ -179,6 +176,22 @@ int main(void)
 				  botton = UNPRESS;
 					LCD_CLR();
 				  ui_setting();
+			}
+			
+			
+			if(time_right)  //∂® ±À…Õ¡
+			{
+				  time_right =false;
+				  printf("laile\r\n");
+					 direction = 1; //Reverse fertilization
+					for(int j=0;j<(motor_angle_cal(90))/8;j++)
+					{
+						for(uint8_t step=0;step<8;step++)
+					{	
+							motor_controld(step,direction);
+							HAL_Delay(1);
+					}
+				}
 			}
   }
   /* USER CODE END 3 */

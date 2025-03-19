@@ -5,6 +5,10 @@
 #include "stdio.h"
 #include "usart.h"
 #include "string.h"
+#include "gpio.h"
+#include "DHT11.h"
+
+#include "motor.h"
 
 #define AT_MODE2 		"AT+CWMODE=2\r\n"
 #define AT_RST   		"AT+RST\r\n"

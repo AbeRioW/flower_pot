@@ -29,7 +29,11 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
+#include "lcd_1602.h"
+#include "stdbool.h"
+#include "motor.h"
+extern bool time_right;
 /* USER CODE END Includes */
 
 extern TIM_HandleTypeDef htim1;
