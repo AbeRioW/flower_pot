@@ -34,8 +34,8 @@ flower_pot\main.o: ../Core/Inc/usart.h
 flower_pot\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 flower_pot\main.o: ../Core/Inc/gpio.h
 flower_pot\main.o: ../BSP/lcd_1602.h
-flower_pot\main.o: ../BSP/DHT11.h
 flower_pot\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+flower_pot\main.o: ../BSP/DHT11.h
 flower_pot\main.o: ../BSP/motor.h
 flower_pot\main.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 flower_pot\main.o: ../BSP/esp8266.h

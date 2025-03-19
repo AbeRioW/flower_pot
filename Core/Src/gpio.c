@@ -22,7 +22,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "stdio.h"
 /* USER CODE END 0 */
 
 /*----------------------------------------------------------------------------*/
@@ -30,6 +30,8 @@
 /*----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
 
+
+enum BUTTON botton = UNPRESS;
 /* USER CODE END 1 */
 
 /** Configure pins as
@@ -128,8 +130,29 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(DHT11_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 2 */
-
+//
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+		if(GPIO_Pin==KEY1_Pin)
+		{
+			 botton = LEFT;
+		}
+		
+		if(GPIO_Pin==KEY2_Pin)
+		{
+			 botton = MIDLE;
+		}
+		
+		if(GPIO_Pin==KEY3_Pin)
+		{
+			 botton = RIGHT;
+		}
+}
 /* USER CODE END 2 */

@@ -88,8 +88,8 @@ void MX_USART3_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART3_Init 2 */
-	__HAL_UART_ENABLE_IT(&huart3,UART_IT_IDLE);  //Ê¹ÄÜ¿ÕÏÐÖÐ¶Ï
-	HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);   //´ò¿ªDMA½ÓÊÕ
+	__HAL_UART_ENABLE_IT(&huart3,UART_IT_IDLE);  //Ê¹ï¿½Ü¿ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+	HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);   //ï¿½ï¿½DMAï¿½ï¿½ï¿½ï¿½
   /* USER CODE END USART3_Init 2 */
 
 }

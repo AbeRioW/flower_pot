@@ -225,8 +225,8 @@ void USART3_IRQHandler(void)
 			__HAL_UART_CLEAR_IDLEFLAG(&huart3);
 		 HAL_UART_DMAStop(&huart3);
 		
-		 rx3_count = 10000 - __HAL_DMA_GET_COUNTER(&hdma_usart3_rx);    //__HAL_DMA_GET_COUNTERÊÇDMAÍ¨µÀÖÐÒÅÁôµÄÊý¾Ý
-		 rx3_end_flag = true;   																			//½ÓÊÕÍê³É±êÖ¾Î»
+		 rx3_count = 10000 - __HAL_DMA_GET_COUNTER(&hdma_usart3_rx);    //__HAL_DMA_GET_COUNTERï¿½ï¿½DMAÍ¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		 rx3_end_flag = true;   																			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É±ï¿½Ö¾Î»
 		  
 	}
   /* USER CODE END USART3_IRQn 0 */
@@ -234,6 +234,22 @@ void USART3_IRQHandler(void)
   /* USER CODE BEGIN USART3_IRQn 1 */
 
   /* USER CODE END USART3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(KEY1_Pin);
+  HAL_GPIO_EXTI_IRQHandler(KEY2_Pin);
+  HAL_GPIO_EXTI_IRQHandler(KEY3_Pin);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

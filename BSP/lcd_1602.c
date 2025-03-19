@@ -1,4 +1,6 @@
 #include "lcd_1602.h"
+int time_set = 5;
+
 
 /**
   * @brief  Reads the specified GPIO output data port.
@@ -120,4 +122,39 @@ void lcd1602_show_string(uint8_t x,uint8_t y,char *str)
 			i++;	
 		}	
 	}				
+}
+
+//设定自动松土的时间
+void ui_setting(void)
+{
+	  char show_data[10]={0};
+		lcd1602_show_string(0,0,"Setting times");
+
+	  while(1)
+		{
+			   sprintf(show_data,"%d",time_set);
+				 lcd1602_show_string(5,1,show_data);
+				 if(botton == LEFT)
+				 {
+					  botton = UNPRESS;
+						time_set--;
+					  if(time_set<1)
+							time_set=9;
+				 }
+				 
+				 if(botton == RIGHT)
+				 {
+					  botton = UNPRESS;
+						time_set++;
+					  if(time_set>9)
+							time_set=1;
+				 }
+				 
+				 if(botton == MIDLE)
+				 {
+					  LCD_CLR();
+					  botton = UNPRESS;
+					  break;
+				 }
+		}
 }
