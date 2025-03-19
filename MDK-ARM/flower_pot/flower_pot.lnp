@@ -4,6 +4,7 @@
 "flower_pot\gpio.o"
 "flower_pot\adc.o"
 "flower_pot\dma.o"
+"flower_pot\tim.o"
 "flower_pot\usart.o"
 "flower_pot\stm32f1xx_it.o"
 "flower_pot\stm32f1xx_hal_msp.o"
