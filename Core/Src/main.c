@@ -74,8 +74,9 @@ int main(void)
   float adcy,adcy1;
 	uint16_t adcx = 0,adcx1 = 0;
 	char data_light[4]={0},data_light1[4]={0};
+	bool start_wifi=false;
   /* USER CODE END 1 */
-
+  
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -101,22 +102,21 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 	lay_control(false);
-				memset(uart3_rx,0,100);;
+	memset(uart3_rx,0,100);;
 	//printf("hello\r\n");
 	//HAL_UART_Transmit(&huart3,(uint8_t*)(AT_MODE2),13,0xffff);
 
-//	start_esp8266();
+	start_wifi =start_esp8266();
 	//LCD_INIT();
-  
+
 	while(1)
 	{
-		  if(rx3_end_flag)
+			if(start_wifi)
 			{
-					rx3_end_flag = false;
-					printf("%d\r\n",rx3_count);
-					rx3_count=0;
-								  HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
+				handle_esp8266();
 			}
+		   
+				
 	}
 
 #if 1

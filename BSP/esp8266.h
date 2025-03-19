@@ -12,8 +12,9 @@
 #define AT_CIPSERVER "AT+CIPSERVER=1\r\n"
 
 
-
+extern bool device_connect;
 
 void handle_esp8266(void);
-void start_esp8266(void);
+bool start_esp8266(void);
+void send_wifi(uint8_t *data,int size);
 #endif
