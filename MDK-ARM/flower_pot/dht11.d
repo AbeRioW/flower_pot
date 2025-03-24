@@ -35,3 +35,7 @@ flower_pot\dht11.o: ../Core/Inc/gpio.h
 flower_pot\dht11.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 flower_pot\dht11.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 flower_pot\dht11.o: ..\BSP\lcd_1602.h
+flower_pot\dht11.o: ..\BSP\DHT11.h
+flower_pot\dht11.o: ../Core/Inc/tim.h
+flower_pot\dht11.o: ../BSP/lcd_1602.h
+flower_pot\dht11.o: ../BSP/motor.h

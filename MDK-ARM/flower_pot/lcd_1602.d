@@ -33,3 +33,8 @@ flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.
 flower_pot\lcd_1602.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 flower_pot\lcd_1602.o: ../Core/Inc/gpio.h
 flower_pot\lcd_1602.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+flower_pot\lcd_1602.o: ..\BSP\DHT11.h
+flower_pot\lcd_1602.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+flower_pot\lcd_1602.o: ..\BSP\lcd_1602.h
+flower_pot\lcd_1602.o: ../Core/Inc/tim.h
+flower_pot\lcd_1602.o: ../BSP/motor.h

@@ -127,34 +127,129 @@ void lcd1602_show_string(uint8_t x,uint8_t y,char *str)
 //设定自动松土的时间
 void ui_setting(void)
 {
-	  char show_data[10]={0};
-		lcd1602_show_string(0,0,"Setting times");
-
+	 int position = 0;
+	  char show_data_temperature[10]={0};
+		char show_data_light[10]={0};
+		char show_data_sl[10]={0};
+		
 	  while(1)
 		{
-			   sprintf(show_data,"%d",time_set);
-				 lcd1602_show_string(5,1,show_data);
-				 if(botton == LEFT)
-				 {
-					  botton = UNPRESS;
-						time_set--;
-					  if(time_set<1)
-							time_set=9;
-				 }
-				 
-				 if(botton == RIGHT)
-				 {
-					  botton = UNPRESS;
-						time_set++;
-					  if(time_set>9)
-							time_set=1;
-				 }
-				 
-				 if(botton == MIDLE)
-				 {
-					  LCD_CLR();
-					  botton = UNPRESS;
-					  break;
-				 }
+			
+		sprintf(show_data_temperature,"T:%02d",ambient_temperature);
+		lcd1602_show_string(0,0,show_data_temperature);
+		
+		sprintf(show_data_light,"L:%.02f",light_data);
+		lcd1602_show_string(5,0,show_data_light);
+		
+				sprintf(show_data_sl,"TS:%02d",timer_set);
+		lcd1602_show_string(11,0,show_data_sl);
+		
+		sprintf(show_data_sl,"SL:%.02f",soil_moisture_miner);
+		lcd1602_show_string(0,1,show_data_sl);
+				
+		sprintf(show_data_sl,"SM:%.02f",soil_moisture_lager);
+		lcd1602_show_string(8,1,show_data_sl);
+			
+			 if(botton == LEFT)
+			{
+				  botton = UNPRESS;
+					switch(position)
+					{
+						case 0:
+							ambient_temperature--;
+						  if(ambient_temperature<10)
+							{
+									ambient_temperature=40;
+							}
+							break;
+						case 1:
+							light_data=light_data-0.1;
+						  if(light_data<0.2)
+							{
+									light_data=0.8;
+							}
+							break;
+						case 2:
+							timer_set--;
+						  if(timer_set<2)
+							{
+									timer_set=10;
+							}
+						break;
+						case 3:
+							soil_moisture_miner=soil_moisture_miner-0.1;
+						  if(soil_moisture_miner<1.0)
+							{
+									soil_moisture_miner=2.0;
+							}
+						break;
+						case 4:
+							soil_moisture_lager=soil_moisture_lager-0.1;
+						  if(soil_moisture_lager<2.7)
+							{
+									soil_moisture_lager=3.3;
+							}
+							break;
+					}
+			}
+			
+			
+			if(botton == RIGHT)
+			{
+				  botton = UNPRESS;
+					switch(position)
+					{
+						case 0:
+							ambient_temperature++;
+						  if(ambient_temperature>40)
+							{
+									ambient_temperature=10;
+							}
+							break;
+						case 1:
+							light_data=light_data+0.1;
+						  if(light_data>0.8)
+							{
+									light_data=0.2;
+							}
+							break;
+						case 2:
+							timer_set++;
+						  if(timer_set>10)
+							{
+									timer_set=2;
+							}
+						break;
+						case 3:
+							soil_moisture_miner=soil_moisture_miner+0.1;
+						  if(soil_moisture_miner>2.0)
+							{
+									soil_moisture_miner=1.0;
+							}
+						break;
+						case 4:
+							soil_moisture_lager=soil_moisture_lager+0.1;
+						  if(soil_moisture_lager>3.3)
+							{
+									soil_moisture_lager=2.7;
+							}
+							break;
+					}
+			}
+			
+			if(botton == MIDLE)
+			{
+				  botton = UNPRESS;
+				  position++;
+				  if(position>4)
+					{
+						 	LCD_CLR();
+						break;
+					}
+						
+
+			}
+			
+			
 		}
 }

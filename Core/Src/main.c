@@ -136,6 +136,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		DHT11();
+		
+		//ADC1获取光照
 		HAL_ADC_Start(&hadc1);   
 		HAL_ADC_PollForConversion(&hadc1,10); 
 		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);  
@@ -143,16 +145,18 @@ int main(void)
 		sprintf(data_light,"%.3f",adcy);
 		lcd1602_show_string(0,1,data_light);
 		
+		//ADC2获取土壤条件
 		HAL_ADC_Start(&hadc2);   
 		HAL_ADC_PollForConversion(&hadc2,10); 
 		adcx1 = (uint16_t)HAL_ADC_GetValue(&hadc2);  
-		adcy1 = (float)adcx1*3.3/4096;              //guangzhao 
+		adcy1 = (float)adcx1*3.3/4096;               
 		sprintf(data_light1,"%.3f",adcy1);
 		lcd1602_show_string(6,1,data_light1);
 
 		
-		(adcy <0.6)?lay_control(true):lay_control(false); //The light is too strong, turn on the relay
-		if(adcy1<2)  //The smaller, the wetter
+		(adcy <light_data)?lay_control(true):lay_control(false); //The light is too strong, turn on the relay
+		
+		if(adcy1<soil_moisture_miner)  //The smaller, the wetter，松土
 		{
 				direction = 0; //Turn to loosen the soil in a positive direction
 				for(int i=0;i<(motor_angle_cal(90))/8;i++)
@@ -165,11 +169,21 @@ int main(void)
 				}
 	  }
 		
+		if(adcy1>soil_moisture_lager)  //太干浇水
+		{
+		    HAL_GPIO_WritePin(GPIOA, WATER_CONTROL_Pin, GPIO_PIN_RESET);		
+		}
+		else
+		{
+				HAL_GPIO_WritePin(GPIOA, WATER_CONTROL_Pin, GPIO_PIN_SET);
+		}
 		
-			if(start_wifi)
-			{
-				  handle_esp8266();
-			}
+		
+		
+//			if(start_wifi)
+//			{
+//				  handle_esp8266();
+//			}
 			
 			if(botton == MIDLE)
 			{
@@ -182,7 +196,6 @@ int main(void)
 			if(time_right)  //定时松土
 			{
 				  time_right =false;
-				  printf("laile\r\n");
 					 direction = 1; //Reverse fertilization
 					for(int j=0;j<(motor_angle_cal(90))/8;j++)
 					{

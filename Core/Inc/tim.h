@@ -34,6 +34,7 @@ extern "C" {
 #include "stdbool.h"
 #include "motor.h"
 extern bool time_right;
+extern uint8_t timer_set;
 /* USER CODE END Includes */
 
 extern TIM_HandleTypeDef htim1;

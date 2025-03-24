@@ -1,4 +1,9 @@
 #include "dht11.h"
+
+uint8_t ambient_temperature = 30;
+float light_data = 0.6;
+float soil_moisture_miner = 2;
+float soil_moisture_lager = 3.27;
 /**
   * @brief  温湿度传感器主函数
   * @param  void
@@ -104,19 +109,19 @@ unsigned char DHT11_READ_DATA(void)
             //printf("当前湿度：%d.%d%%RH当前温度：%d.%d°C--",data[0],data[1],data[2],data[3]);
 					  sprintf(dht11_data,"%d.%d%%RH %d.%dC",data[0],data[1],data[2],data[3]);
 					  lcd1602_show_string(0,0,dht11_data);
-						if((data[0]>=50)||(data[2]>=30))
+						if(data[2]>=ambient_temperature)  //环境温度大于阈值
 						{
-								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET);  //开风扇
+								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);  //开风扇,低有效，是开继电器
 							  HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_RESET);  //BEEP 开启
-							  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);  //BEEP 开启
+							  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);  //LED 开启
 						}
 						else
 						{
-								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
+								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET);   //关风扇,是关继电器
 								HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_SET);  //BEEP关闭
 								HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);  //BEEP 开启
 						}
-            return 1;                               //  数据校验通过
+            return 1;                               
         }
         else
         {

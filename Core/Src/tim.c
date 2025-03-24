@@ -24,6 +24,7 @@
 
 
 bool time_right = false;
+uint8_t timer_set =5;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim1;
@@ -118,7 +119,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if(htim->Instance == TIM1)  //Reverse fertilization
 		{
 			  i++;
-			  if(i==20*5)  
+			  if(i==20*timer_set)  
 				{
 						i=0;
 					  time_right= true;

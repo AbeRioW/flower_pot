@@ -12,6 +12,11 @@
 #define DHT11_PIN_RESET HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET)                                          //  设置GPIO为低
 #define DHT11_READ_IO   HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_9)                                                          //  DHT11 GPIO定义
 
+extern uint8_t ambient_temperature;  //环境温度
+extern  float light_data;   //光照值
+extern float soil_moisture_miner;  //湿度值
+extern float soil_moisture_lager; //干燥值
+
 
 void DHT11(void);
 void DHT11_START(void);

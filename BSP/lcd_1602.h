@@ -4,6 +4,8 @@
 #include "main.h"
 #include "gpio.h"
 #include "stdio.h"
+#include "DHT11.h"
+#include "tim.h"
 
 extern int time_set;
 

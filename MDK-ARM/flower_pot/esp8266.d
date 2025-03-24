@@ -38,4 +38,7 @@ flower_pot\esp8266.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\st
 flower_pot\esp8266.o: ../Core/Inc/gpio.h
 flower_pot\esp8266.o: ..\BSP\DHT11.h
 flower_pot\esp8266.o: ..\BSP\lcd_1602.h
-flower_pot\esp8266.o: ..\BSP\motor.h
+flower_pot\esp8266.o: ..\BSP\DHT11.h
+flower_pot\esp8266.o: ../Core/Inc/tim.h
+flower_pot\esp8266.o: ../BSP/lcd_1602.h
+flower_pot\esp8266.o: ../BSP/motor.h
