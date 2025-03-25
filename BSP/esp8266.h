@@ -18,6 +18,9 @@
 
 
 extern bool device_connect;
+extern bool fan_control;
+extern bool lay_to_control;
+
 
 void handle_esp8266(void);
 bool start_esp8266(void);

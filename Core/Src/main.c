@@ -72,12 +72,13 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	static int i_count1=0;
   float adcy,adcy1;
 	uint16_t adcx = 0,adcx1 = 0;
 	char data_light[4]={0},data_light1[4]={0};
 	bool start_wifi=false;
 	
-	char show_light[40],show_wet[20];
+	char show_light[50],show_wet[20];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -135,7 +136,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
 		DHT11();
 						  handle_esp8266();
@@ -145,10 +145,7 @@ int main(void)
 		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);  
 		adcy = (float)adcx*3.3/4096;             
 		sprintf(data_light,"%.3f",adcy);
-//		char *data_show1;
-//		sprintf(data_show1,"Light:%s\r\n",data_light);
 		lcd1602_show_string(0,1,data_light);
-//		send_wifi((uint8_t*)data_light,15);
 		
 		
 		//ADC2获取土壤条件
@@ -159,16 +156,17 @@ int main(void)
 		sprintf(data_light1,"%.3f",adcy1);
 		lcd1602_show_string(6,1,data_light1);
 
-//    if(!is_yichang)
-//		{
-						sprintf(show_light,"light:%.3f wet:%.3f\r\n",adcy,adcy1);
-						send_wifi((uint8_t*)show_light,24);
-//		}
+    i_count1++;
+		if(i_count1/10)
+		{
+			  i_count1=0;
+				sprintf(show_light,"light:%.3f wet:%.3f\r\n",adcy,adcy1);
+				send_wifi((uint8_t*)show_light,24);
+		}
+
+
 
 		
-//		HAL_Delay(20);
-//		    sprintf(show_wet,"wet:%.3f\r\n",adcy1);
-//		send_wifi((uint8_t*)show_wet,13);
 		
 		
 		(adcy <light_data)?lay_control(true):lay_control(false); //The light is too strong, turn on the relay

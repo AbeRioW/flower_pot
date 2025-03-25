@@ -2,6 +2,9 @@
 
 bool device_connect = false;
 
+
+bool fan_control = false;
+bool lay_to_control = false;
 static  void handle_wifi_data(void);
 bool start_esp8266(void)
 { 
@@ -32,9 +35,9 @@ void handle_esp8266(void)
 //	char *send = "hello\r\n";
 	char *wifi_connect = "0,CONNECT";
 	char *wifi_rec = "\r\n+IPD,";
-	char *layon = "\r\n+IPD,0,5:layon";
-	char *timeset2 = "\r\n+IPD,0,5:fanon";
-	char *timeset3 = "\r\n+IPD,0,5:set03";
+	char *layon = "layon";
+	char *fanon = "fanon";
+	char *fanoff = "fanoff";
 	char *timeset4 = "\r\n+IPD,0,5:set04";
 	char *timeset5 = "\r\n+IPD,0,5:set05";
 	char *timeset6 = "\r\n+IPD,0,5:set06";
@@ -53,22 +56,25 @@ void handle_esp8266(void)
 						device_connect=true;
 			}
 			
-			if(memcmp(uart3_rx,layon,15)==0)  //wifi已连接
+			if(strstr((char *)uart3_rx,layon)!=NULL)  //wifi已连接
 			{
 							//	HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
 				   lay_control(true);  
 			}
 			
-						if(memcmp(uart3_rx,timeset2,15)==0)  //wifi已连接
+			if(strstr((char *)uart3_rx,fanon)!=NULL)  //wifi已连接
 			{
-							//	HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
-				   HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET); 
+				  fan_control= true;
+					HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET); 
 			}
-			
-			
-			
-			
 
+			
+			if(strstr((char *)uart3_rx,fanoff)!=NULL)  //wifi已连接
+			{
+				  fan_control= false;
+					HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET); 
+			}			
+			
 
 			rx3_count=0;
 			memset(uart3_rx,0,1000);

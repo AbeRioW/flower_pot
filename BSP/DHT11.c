@@ -93,7 +93,8 @@ unsigned char DHT11_READ_DATA(void)
     uint8_t data[5] = {0};
 		char dht11_data[11]={0};
 		char show_data[20]={0};
-    
+		char show_wifi[50];
+    static int i_count=0;
     DHT11_START();                                  //  主机发送启动信号
     
     if(DHT11_Check())                               //  如果DHT11应答     
@@ -111,11 +112,15 @@ unsigned char DHT11_READ_DATA(void)
             //printf("当前湿度：%d.%d%%RH当前温度：%d.%d°C--",data[0],data[1],data[2],data[3]);
 					  sprintf(dht11_data,"%d.%d%%RH %d.%dC",data[0],data[1],data[2],data[3]);
 					  lcd1602_show_string(0,0,dht11_data);
-					sprintf(show_data,"%s\r\n",dht11_data);
-//					if(!is_yichang)
-//					{
-							send_wifi((uint8_t*)dht11_data,13);	
-//					}
+
+					 
+					i_count++;
+					  if(i_count/10)
+						{
+							 i_count=0;
+							 sprintf(show_wifi,"%d.%d%%RH %d.%dC\r\n",data[0],data[1],data[2],data[3]);
+							 send_wifi((uint8_t*)show_wifi,13);
+						}
 
 						if(data[2]>=ambient_temperature)  //环境温度大于阈值
 						{
@@ -126,7 +131,11 @@ unsigned char DHT11_READ_DATA(void)
 						}
 						else
 						{
-								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET);   //关风扇,是关继电器
+							  if(!fan_control)
+								{
+									 		HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET);   //关风扇,是关继电器
+								}
+
 								HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_SET);  //BEEP关闭
 								HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);  //BEEP 开启
 						}
