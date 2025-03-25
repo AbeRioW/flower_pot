@@ -31,11 +31,14 @@ flower_pot\dht11.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 flower_pot\dht11.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 flower_pot\dht11.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 flower_pot\dht11.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+flower_pot\dht11.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 flower_pot\dht11.o: ../Core/Inc/gpio.h
 flower_pot\dht11.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-flower_pot\dht11.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 flower_pot\dht11.o: ..\BSP\lcd_1602.h
 flower_pot\dht11.o: ..\BSP\DHT11.h
 flower_pot\dht11.o: ../Core/Inc/tim.h
 flower_pot\dht11.o: ../BSP/lcd_1602.h
 flower_pot\dht11.o: ../BSP/motor.h
+flower_pot\dht11.o: ..\BSP\esp8266.h
+flower_pot\dht11.o: ../Core/Inc/usart.h
+flower_pot\dht11.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

@@ -35,7 +35,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+bool is_yichang = false;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -76,6 +76,8 @@ int main(void)
 	uint16_t adcx = 0,adcx1 = 0;
 	char data_light[4]={0},data_light1[4]={0};
 	bool start_wifi=false;
+	
+	char show_light[40],show_wet[20];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -136,14 +138,18 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		DHT11();
-		
+						  handle_esp8266();
 		//ADC1获取光照
 		HAL_ADC_Start(&hadc1);   
 		HAL_ADC_PollForConversion(&hadc1,10); 
 		adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);  
 		adcy = (float)adcx*3.3/4096;             
 		sprintf(data_light,"%.3f",adcy);
+//		char *data_show1;
+//		sprintf(data_show1,"Light:%s\r\n",data_light);
 		lcd1602_show_string(0,1,data_light);
+//		send_wifi((uint8_t*)data_light,15);
+		
 		
 		//ADC2获取土壤条件
 		HAL_ADC_Start(&hadc2);   
@@ -153,8 +159,20 @@ int main(void)
 		sprintf(data_light1,"%.3f",adcy1);
 		lcd1602_show_string(6,1,data_light1);
 
+//    if(!is_yichang)
+//		{
+						sprintf(show_light,"light:%.3f wet:%.3f\r\n",adcy,adcy1);
+						send_wifi((uint8_t*)show_light,24);
+//		}
+
+		
+//		HAL_Delay(20);
+//		    sprintf(show_wet,"wet:%.3f\r\n",adcy1);
+//		send_wifi((uint8_t*)show_wet,13);
+		
 		
 		(adcy <light_data)?lay_control(true):lay_control(false); //The light is too strong, turn on the relay
+		
 		
 		if(adcy1<soil_moisture_miner)  //The smaller, the wetter，松土
 		{
@@ -192,6 +210,27 @@ int main(void)
 				  ui_setting();
 			}
 			
+			
+			if(botton == LEFT)  //左键松土
+			{
+				  botton = UNPRESS;
+					 direction = 1; //Reverse fertilization
+						for(int j=0;j<(motor_angle_cal(90))/8;j++)
+						{
+								for(uint8_t step=0;step<8;step++)
+								{	
+										motor_controld(step,direction);
+										HAL_Delay(1);
+								}
+						}
+			}
+					
+			if(botton == RIGHT)  //左键松土
+			{
+				botton = UNPRESS;
+				lay_control(true);
+			}
+
 			
 			if(time_right)  //定时松土
 			{

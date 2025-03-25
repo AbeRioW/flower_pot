@@ -1,4 +1,5 @@
 #include "dht11.h"
+#include "esp8266.h"
 
 uint8_t ambient_temperature = 30;
 float light_data = 0.6;
@@ -91,6 +92,7 @@ unsigned char DHT11_READ_DATA(void)
     uint8_t i;
     uint8_t data[5] = {0};
 		char dht11_data[11]={0};
+		char show_data[20]={0};
     
     DHT11_START();                                  //  主机发送启动信号
     
@@ -109,8 +111,15 @@ unsigned char DHT11_READ_DATA(void)
             //printf("当前湿度：%d.%d%%RH当前温度：%d.%d°C--",data[0],data[1],data[2],data[3]);
 					  sprintf(dht11_data,"%d.%d%%RH %d.%dC",data[0],data[1],data[2],data[3]);
 					  lcd1602_show_string(0,0,dht11_data);
+					sprintf(show_data,"%s\r\n",dht11_data);
+//					if(!is_yichang)
+//					{
+							send_wifi((uint8_t*)dht11_data,13);	
+//					}
+
 						if(data[2]>=ambient_temperature)  //环境温度大于阈值
 						{
+							  
 								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);  //开风扇,低有效，是开继电器
 							  HAL_GPIO_WritePin(GPIOB, BEEP_Pin, GPIO_PIN_RESET);  //BEEP 开启
 							  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);  //LED 开启

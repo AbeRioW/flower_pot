@@ -7,52 +7,21 @@ bool start_esp8266(void)
 { 
 	
 			HAL_UART_Transmit(&huart3,(uint8_t*)(AT_MODE2),13,0xffff);
-			HAL_Delay(100);
-	    while(1)
-			{
-				 if(rx3_end_flag)
-					{
-						//printf("%s\r\n",uart3_rx);
-						rx3_end_flag = false;
-						rx3_count=0;
-						HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
-						break;
-					}
-			}
+			HAL_Delay(1000);
+      HAL_UART_Transmit(&huart3,(uint8_t*)(AT_SET),38,0xffff);
+				HAL_Delay(1000);
 			
 			HAL_UART_Transmit(&huart3,(uint8_t*)(AT_RST),8,0xffff);
-			HAL_Delay(1000);
-	    while(1)
-			{
-				 if(rx3_end_flag)
-					{
-						//printf("%s\r\n",uart3_rx);
-						rx3_end_flag = false;
-						rx3_count=0;
-						HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
-						break;
-					}
-			}
+			HAL_Delay(4000);
 			
 			HAL_UART_Transmit(&huart3,(uint8_t*)(AT_CIPMUX),13,0xffff);
-			HAL_Delay(100);
-	    while(1)
-			{
-				 if(rx3_end_flag)
-					{
-						//	printf("%s\r\n",uart3_rx);
-						rx3_end_flag = false;
-						rx3_count=0;
-						HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
-						break;
-					}
-			}
+			HAL_Delay(1000);
 			
-				 HAL_UART_Transmit(&huart3,(uint8_t*)(AT_CIPSERVER),16,0xffff);
-			   HAL_Delay(100);
-				 rx3_end_flag = false;
-				 rx3_count=0;
-				HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
+		  HAL_UART_Transmit(&huart3,(uint8_t*)(AT_CIPSERVER),21,0xffff);
+			HAL_Delay(1000);
+			
+				__HAL_UART_ENABLE_IT(&huart3,UART_IT_IDLE);  
+			HAL_UART_Receive_DMA(&huart3,uart3_rx,1000);   
 			
 			 return true;
 			 
@@ -60,58 +29,78 @@ bool start_esp8266(void)
 
 void handle_esp8266(void)
 {
-	    uint8_t data[3]={'1','2','3'};
-	    char* connected ="0,CONNECT";
-			if(device_connect==false)
+//	char *send = "hello\r\n";
+	char *wifi_connect = "0,CONNECT";
+	char *wifi_rec = "\r\n+IPD,";
+	char *layon = "\r\n+IPD,0,5:layon";
+	char *timeset2 = "\r\n+IPD,0,5:fanon";
+	char *timeset3 = "\r\n+IPD,0,5:set03";
+	char *timeset4 = "\r\n+IPD,0,5:set04";
+	char *timeset5 = "\r\n+IPD,0,5:set05";
+	char *timeset6 = "\r\n+IPD,0,5:set06";
+	char *timeset7 = "\r\n+IPD,0,5:set07";
+	char *timeset8 = "\r\n+IPD,0,5:set08";
+	char *timeset9 = "\r\n+IPD,0,5:set09";
+	char *timeset10 = "\r\n+IPD,0,5:set10";
+	if(rx3_end_flag)
+	{
+		 //printf("HANDLE %s\r\n",uart2_rx);
+			rx3_end_flag = false;
+		
+		  if(memcmp(uart3_rx,wifi_connect,9)==0)  //wifi已连接
 			{
-					printf("connect\r\n");
-				 	if(rx3_end_flag)
-					{
-						rx3_end_flag = false;
-
-						if(memcmp(uart3_rx,connected,9)==0)
-						{
-								device_connect=true;					    
-						}
-				
-						rx3_count=0;
-						memset(uart3_rx,0,10000);
-						HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
-					} 
+						//printf("yes\r\n");
+						device_connect=true;
 			}
-			else
-			{
-					if(rx3_end_flag)
-					{
-						rx3_end_flag = false;
-						printf("%s\r\n",uart3_rx);
-						handle_wifi_data();
-						rx3_count=0;
-						memset(uart3_rx,0,10000);
-						HAL_UART_Receive_DMA(&huart3,uart3_rx,10000);  //需要重新启动DMA
-					} 
-			}
-
 			
+			if(memcmp(uart3_rx,layon,15)==0)  //wifi已连接
+			{
+							//	HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
+				   lay_control(true);  
+			}
+			
+						if(memcmp(uart3_rx,timeset2,15)==0)  //wifi已连接
+			{
+							//	HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);
+				   HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET); 
+			}
+			
+			
+			
+			
+
+
+			rx3_count=0;
+			memset(uart3_rx,0,1000);
+			HAL_UART_Receive_DMA(&huart3,uart3_rx,1000);  //需要重新启动DMA
+	} 
+				
 }
 
 void send_wifi(uint8_t *data,int size)
 {
-//			char * data1 = "AT+CIPSEND=0,4\r\n";
-//			char * data2 = "1234\r\n";
-//	    printf("sned\r\n");
-//	    HAL_UART_Transmit(&huart3,(uint8_t*)(data1),16,0xffff);
-//	    HAL_Delay(100);
-//		  HAL_UART_Transmit(&huart3,(uint8_t*)(data2),6,0xffff);
-	  char send_data[50]={0};
-		char send_data1[50]={0};
-	  sprintf(send_data,"AT+CIPSEND=0,%d\r\n",size);
-		HAL_UART_Transmit(&huart3,(uint8_t*)(send_data),16,0xffff);
-
-		HAL_Delay(100);
+	  int send_size=0;
+	  if(size<10)
+		{
+			 send_size=1; 
+		}
 		
-		sprintf(send_data1,"%s\r\n",data);
-		HAL_UART_Transmit(&huart3,(uint8_t*)send_data1,size+2,0xffff);
+		if(size>10&&size<100)
+		{
+				send_size=2;
+		}
+		
+			
+	  if(device_connect)
+		{
+			char send_data[50]={0};
+			char send_data1[50]={0};
+			sprintf(send_data,"AT+CIPSEND=0,%d\r\n",size);
+			HAL_UART_Transmit(&huart3,(uint8_t*)(send_data),15+send_size,0xffff);
+
+			HAL_Delay(100);
+			HAL_UART_Transmit(&huart3,(uint8_t*)data,size,0xffff);
+		}
 }
 
 

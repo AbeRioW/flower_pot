@@ -110,7 +110,8 @@ void Error_Handler(void);
 #define DHT11_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#include "stdbool.h"
+extern bool is_yichang;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
