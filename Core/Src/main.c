@@ -185,6 +185,7 @@ int main(void)
 				}
 	  }
 		
+
 		if(adcy1>soil_moisture_lager)  //太干浇水
 		{
 		    HAL_GPIO_WritePin(GPIOA, WATER_CONTROL_Pin, GPIO_PIN_RESET);		
@@ -193,6 +194,8 @@ int main(void)
 		{
 				HAL_GPIO_WritePin(GPIOA, WATER_CONTROL_Pin, GPIO_PIN_SET);
 		}
+
+
 		
 		
 		
@@ -233,7 +236,7 @@ int main(void)
 			if(time_right)  //定时松土
 			{
 				  time_right =false;
-					 direction = 1; //Reverse fertilization
+					 direction = 0; //Reverse fertilization
 					for(int j=0;j<(motor_angle_cal(90))/8;j++)
 					{
 						for(uint8_t step=0;step<8;step++)

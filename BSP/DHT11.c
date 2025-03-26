@@ -122,7 +122,7 @@ unsigned char DHT11_READ_DATA(void)
 							 send_wifi((uint8_t*)show_wifi,13);
 						}
 
-						if(data[2]>=ambient_temperature)  //环境温度大于阈值
+						if((data[2]>=ambient_temperature)||(data[0]>=70))  //环境温度大于阈值
 						{
 							  
 								HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_RESET);  //开风扇,低有效，是开继电器

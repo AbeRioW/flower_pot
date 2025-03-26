@@ -5,6 +5,9 @@ bool device_connect = false;
 
 bool fan_control = false;
 bool lay_to_control = false;
+bool pum_control = false;
+
+
 static  void handle_wifi_data(void);
 bool start_esp8266(void)
 { 
@@ -38,9 +41,9 @@ void handle_esp8266(void)
 	char *layon = "layon";
 	char *fanon = "fanon";
 	char *fanoff = "fanoff";
-	char *timeset4 = "\r\n+IPD,0,5:set04";
-	char *timeset5 = "\r\n+IPD,0,5:set05";
-	char *timeset6 = "\r\n+IPD,0,5:set06";
+	char *pumpon = "pumpon";
+	char *pumpoff = "pumpoff";
+	char *motor = "motor";
 	char *timeset7 = "\r\n+IPD,0,5:set07";
 	char *timeset8 = "\r\n+IPD,0,5:set08";
 	char *timeset9 = "\r\n+IPD,0,5:set09";
@@ -75,6 +78,30 @@ void handle_esp8266(void)
 					HAL_GPIO_WritePin(GPIOB, FAN_Pin, GPIO_PIN_SET); 
 			}			
 			
+			if(strstr((char *)uart3_rx,pumpon)!=NULL)  //wifi已连接
+			{
+					HAL_GPIO_WritePin(WATER_CONTROL_GPIO_Port, WATER_CONTROL_Pin, GPIO_PIN_RESET); 
+			}
+			
+						if(strstr((char *)uart3_rx,motor)!=NULL)  //wifi已连接
+			{
+									direction = 1; //Turn to loosen the soil in a positive direction
+				for(int i=0;i<(motor_angle_cal(90))/8;i++)
+				{
+					for(uint8_t step=0;step<8;step++)
+					{	
+							motor_controld(step,direction);
+							HAL_Delay(1);
+					}
+				}
+			}
+			
+			
+//			if(strstr((char *)uart3_rx,pumpoff)!=NULL)  //wifi已连接
+//			{
+//					HAL_GPIO_WritePin(WATER_CONTROL_GPIO_Port, WATER_CONTROL_Pin, GPIO_PIN_SET); 
+//			}
+//			
 
 			rx3_count=0;
 			memset(uart3_rx,0,1000);
